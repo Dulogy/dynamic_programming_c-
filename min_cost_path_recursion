@@ -1,4 +1,4 @@
-// min_cost_path
+// min_cost_path by recursion
 
 #include<iostream>
 #include<climits>
