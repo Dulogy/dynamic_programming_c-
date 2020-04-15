@@ -1,0 +1,61 @@
+//     minCostPathMemoization
+
+#include<iostream>
+#include<climits>
+using namespace std;
+
+int minCostPathMemoization(int **a,int m, int n,int i,int j,int **b){
+    if(i == m-1 && j == n-1){
+        return a[i][j] ;
+    }
+    if( i >= m || j >= n){
+        return INT_MAX ;
+    }
+    if(b[i][j] != -1){
+        return b[i][j] ;
+    }
+    int x = minCostPathMemoization(a,m,n,i,j+1,b)   ;
+    int y = minCostPathMemoization(a,m,n,i+1,j+1,b) ;
+    int z = minCostPathMemoization(a,m,n,i+1,j,b)   ;
+    int ans = min(x,min(y,z)) + a[i][j] ;
+    b[i][j] = ans ;
+    return ans ;
+
+}
+int minCostPathMemoization(int **a,int m, int n){
+   int **b ;
+    b = new int *[m] ;
+    for(int i = 0; i < m; i++){
+        b[i] = new int [n] ;
+    }
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            b[i][j] = -1 ;
+        }
+    }  
+    return minCostPathMemoization(a,m,n,0,0,b) ;
+
+}
+
+int main(){
+    int m ,n ;
+    cout << "enter row and column : ";
+    cin >> m >> n;
+    int **a ;
+    a = new int *[m] ;
+    for(int i = 0; i < m; i++){
+        a[i] = new int [n] ;
+    }
+    for(int i = 0; i < m; i++){
+        for(int j = 0; j < n; j++){
+            cin >> a[i][j] ;
+        }
+    }
+
+    cout << minCostPathMemoization(a,m,n) ;
+    for(int i = 0; i < m; i++){
+        delete [] a[i] ;
+    }
+    delete [] a ;
+
+}
